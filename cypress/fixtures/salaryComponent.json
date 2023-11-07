@@ -1,0 +1,9 @@
+{
+    "addDirectDeposit": false,
+    "comment": null,
+    "currencyId": "USD",
+    "payFrequencyId": "4",
+    "payGradeId": 3,
+    "salaryAmount": "40000",
+    "salaryComponent": "1"
+}

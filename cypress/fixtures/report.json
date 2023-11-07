@@ -1,0 +1,27 @@
+{
+    "name": "QA Leader Employee Report",
+    "criteria": [
+        {
+            "select": "Job Title",
+            "value": "QA Leader"
+        },
+        {
+            "select": "Location",
+            "value": "Nablus"
+        }
+    ],
+    "displayFields": [
+        {
+            "feildGroup": "Personal",
+            "feildName": "Employee First Name"
+        },
+        {
+            "feildGroup": "Job",
+            "feildName": "Job Title"
+        },
+        {
+            "feildGroup": "Salary",
+            "feildName": "Amount"
+        }
+    ]
+}

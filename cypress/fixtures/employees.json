@@ -1,0 +1,26 @@
+[
+    {
+        "empID": "1999",
+        "firstName": "Sarah Sarah",
+        "lastName": "S",
+        "middleName": "",
+        "username": "sarah",
+        "password": "sarah123"
+    },
+    {
+        "empID": "1998",
+        "firstName": "Ahmad Ahmad",
+        "lastName": "A",
+        "middleName": "",
+        "username": "ahmad",
+        "password": "ahmad123"
+    },
+    {
+        "empID": "1997",
+        "firstName": "Mohammed Mohammed",
+        "lastName": "M",
+        "middleName": "",
+        "username": "mohammed",
+        "password": "mohammed123"
+    }
+]
