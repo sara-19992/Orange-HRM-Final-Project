@@ -1,0 +1,9 @@
+//ignore file
+
+node_modules
+allure-results
+allure-report
+package-lock.json
+package.json
+cypress.config.json
+addEmployee.ts
