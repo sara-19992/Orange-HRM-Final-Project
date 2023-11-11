@@ -1,8 +1,14 @@
 //ignore file
 
 node_modules
-allure-results
-allure-report
+allure-report/data
+allure-report/export
+allure-report/history
+allure-report/plugin
+allure-report/widgets
+allure-report/app.json
+allure-report/data
+allure-results/
 package-lock.json
 package.json
 cypress.config.json
