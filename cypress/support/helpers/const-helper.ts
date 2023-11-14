@@ -7,5 +7,8 @@ export const URLS = {
     event: `${URL_COSTANT}/claim/events`,
     expense: `${URL_COSTANT}/claim/expenses/types`,
     cliamEmp: `${URL_COSTANT}/claim/employees`,
-    cliamReq: `${URL_COSTANT}/claim/requests`
+    cliamReq: `${URL_COSTANT}/claim/requests`,
+    vacancy: `${URL_COSTANT}/recruitment/vacancies`,
+    candidate: `${URL_COSTANT}/recruitment/candidates`,
+    visitCandidate: `/web/index.php/recruitment/addCandidate`
 }
