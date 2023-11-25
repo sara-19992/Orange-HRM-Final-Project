@@ -1,6 +1,14 @@
 import { URLS } from "../helpers/const-helper";
-import { selectFromList, uploadFile, verfiyFileEqual } from "../helpers/generic-helper";
-// const path = require("path");
+import {
+  clickOnButton,
+  clickOnSubmitButton,
+  selectFromList,
+  uploadFile,
+  verfiyElementHaveLength,
+  verfiyElementHaveText,
+  verfiyFileEqual,
+  verfiyFileIsExist,
+} from "../helpers/generic-helper";
 
 const CANDIDATE_VISIT_URL = URLS.visitCandidate;
 
@@ -14,19 +22,16 @@ export default class candidatePage {
     eyeIcon: () => cy.get(".bi-eye-fill"),
     switchEdit: () => cy.get(".oxd-switch-input"),
     uploadFileInput: () => cy.get('input[type="file"]'),
-    resume: () => cy.get('.orangehrm-file-preview'),
+    resume: () => cy.get(".orangehrm-file-preview"),
     attachmentRows: () => cy.get(".oxd-table-card"),
     downlodeIconFile: () => cy.get(".bi-download"),
     loader: () => cy.get(".oxd-loading-spinner"),
-    tableRow:() => cy.get(".oxd-table-card"),
-    actionButs: () => cy.get(".orangehrm-recruitment-actions")
+    tableRow: () => cy.get(".oxd-table-card"),
+    actionButs: () => cy.get(".orangehrm-recruitment-actions"),
   };
 
   goToRecruitment() {
-    this.elements
-      .MainMenuItems()
-      .contains("Recruitment")
-      .click({ force: true });
+    clickOnButton(this.elements.MainMenuItems().contains("Recruitment"));
   }
 
   visitCandidate(id: number) {
@@ -41,10 +46,10 @@ export default class candidatePage {
         .find(".oxd-select-wrapper"),
       select: vacancy,
     });
-    this.elements.submitBut().click({ force: true });
-    this.elements.loader().should("not.exist");
-    this.elements.tableRow().should('have.length',1)
-    this.elements.eyeIcon().click({ force: true });
+    clickOnButton(this.elements.submitBut());
+    this.verfiyLoaderIsNotExist();
+    verfiyElementHaveLength(this.elements.tableRow(), 1);
+    clickOnButton(this.elements.eyeIcon());
   }
 
   editCandidateMode() {
@@ -53,44 +58,53 @@ export default class candidatePage {
 
   uploadCandidateFIle() {
     uploadFile(this.elements.uploadFileInput(), "cypress/fixtures/file.txt");
-    this.elements.submitBut().click({ force: true });
-    this.elements.loader().should("not.exist");
+    clickOnButton(this.elements.submitBut());
+    this.verfiyLoaderIsNotExist();
   }
 
-  verfiyCandidateFile(fileName:string){
-    this.elements.resume().should('have.text',`${fileName} `) 
-    this.elements.downlodeIconFile().click({ force: true });
-    cy.wait(2000);
-    verfiyFileEqual(fileName)
+  verfiyCandidateFile(fileName: string) {
+    verfiyElementHaveText(this.elements.resume(), `${fileName} `);
+    clickOnButton(this.elements.downlodeIconFile());
+    verfiyFileIsExist(fileName);
+    verfiyFileEqual(fileName);
   }
 
-  passInterview() {
+  clickOnPassInterviewButton() {
     this.interviewAction("Mark Interview Passed");
   }
 
-  failInterview() {
+  clickOnFailInterviewButton() {
     this.interviewAction("Mark Interview Failed");
   }
 
   interviewAction(str: string) {
-    this.elements.loader().should("not.exist");
-    this.elements.actionButs().contains('Reject Mark Interview Failed Mark Interview Passed')
-    this.elements.buttons().contains(str).click({ force: true });
-    this.elements.submitBut().click();
-  }
+    this.verfiyLoaderIsNotExist()
+    this.verfiyCandidateButtonsIsExist(
+      "Reject Mark Interview Failed Mark Interview Passed"
+    );
+    clickOnButton(this.elements.buttons().contains(str));
+    clickOnSubmitButton(this.elements.submitBut());
+    }
 
-  verfiyInterviewPassed() {
+  verifyInterviewPassedStatusIsExist() {
     this.verfiyCandidateStatus("Interview Passed");
-    this.elements.actionButs().contains('Reject Schedule Interview Offer Job')
+    this.verfiyCandidateButtonsIsExist("Reject Schedule Interview Offer Job");
   }
 
-  verfiyInterviewFailed() {
+  verifyInterviewFailedStatusIsExist() {
     this.verfiyCandidateStatus("Interview Failed");
-    this.elements.actionButs().contains('Reject')
+    this.verfiyCandidateButtonsIsExist("Reject");
   }
 
   verfiyCandidateStatus(status: string) {
     this.elements.status().should("contain", status);
   }
 
+  verfiyCandidateButtonsIsExist(buts: string) {
+    this.elements.actionButs().contains(buts);
+  }
+
+  verfiyLoaderIsNotExist() {
+    this.elements.loader().should("not.exist");
+  }
 }

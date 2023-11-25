@@ -25,38 +25,35 @@ let empNum: any;
 let vacancyId: any;
 let candidateId: any;
 
-Given("The system has existing Job", () => {
+beforeEach(() => {
   cy.visit("/web/index.php");
   cy.fixture("adminLogin").then((admin) => {
     login.userLogin(admin.userName, admin.password);
-    login.verfiyElem(admin.dashboard_main_menu_item);
   });
 
+  //The system has existing Job
   cy.fixture("job").then((job) => {
     createJobAPI(job).then((resolve) => {
       jobId = resolve;
     });
   });
-});
 
-Given("Existing Employee", () => {
+  //The system has existing Job
   cy.fixture("employees").then((employees: employeeInterface[]) => {
     let emp = employees[0];
     empAPI.addEmployee(emp).then((resolve) => {
       empNum = resolve;
     });
   });
-});
 
-Given("Existing Vacancy with hiring existing employee", () => {
+  //Existing Vacancy with hiring existing employee
   cy.fixture("vacancy").then((vacancy: vacancyInterface) => {
     createVacancyAPI(vacancy, empNum, jobId).then((resolve) => {
       vacancyId = resolve;
     });
   });
-});
 
-Given("Existing candidate with Interview Scheduled status", () => {
+ //Existing candidate with Interview Scheduled status
   cy.fixture("candidate").then((candidate) => {
     createCandidateAPI(candidate, vacancyId).then((resolve) => {
       candidateId = resolve;
@@ -67,9 +64,16 @@ Given("Existing candidate with Interview Scheduled status", () => {
     });
   });
   login.userLogout();
-});
+})
 
-When("The admin login to the system", () => {
+afterEach(() => {
+  deleteCandidateAPI(candidateId);
+  deleteVacancyAPI(vacancyId);
+  empAPI.deleteEmployee(empNum);
+  deleteJob(jobId);
+})
+
+Given("The admin login to the system", () => {
   cy.fixture("adminLogin").then((admin) => {
     login.userLogin(admin.userName, admin.password);
     login.verfiyElem(admin.dashboard_main_menu_item);
@@ -82,25 +86,18 @@ When("Access the candidate form", () => {
 
 When("Click on Passe the Interview button", () => {
   candidate.visitCandidate(candidateId);
-  candidate.passInterview();
+  candidate.clickOnPassInterviewButton();
 });
 
 Then("The Interview should contain the Passed Interview status", () => {
-  candidate.verfiyInterviewPassed();
+  candidate.verifyInterviewPassedStatusIsExist();
 });
 
 When("Click on Fail the Interview button", () => {
   candidate.visitCandidate(candidateId);
-  candidate.failInterview();
+  candidate.clickOnFailInterviewButton();
 });
 
 Then("The Interview should contain the Failed Interview status", () => {
-  candidate.verfiyInterviewFailed();
-});
-
-Then("Delete all PreRequisites data", () => {
-  deleteCandidateAPI(candidateId);
-  deleteVacancyAPI(vacancyId);
-  empAPI.deleteEmployee(empNum);
-  deleteJob(jobId);
+  candidate.verifyInterviewFailedStatusIsExist();
 });
