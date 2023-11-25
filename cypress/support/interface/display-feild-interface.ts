@@ -1,4 +1,4 @@
-export default interface displayField {
+export default interface DisplayField {
     feildGroup: string
     feildName: string
 }

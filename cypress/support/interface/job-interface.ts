@@ -1,4 +1,4 @@
-export default interface jobInterface {
+export default interface JobInterface {
     description: string,
     note: string,
     specification: string,

@@ -1,4 +1,4 @@
-export default interface locationInterface {
+export default interface LocationInterface {
     address: string,
     city: string,
     countryCode: string,

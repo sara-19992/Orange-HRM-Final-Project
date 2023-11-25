@@ -1,4 +1,4 @@
-export default interface selectCriteria {
+export default interface SelectCriteria {
     select: string
     value: string
 }

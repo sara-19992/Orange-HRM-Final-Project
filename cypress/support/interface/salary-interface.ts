@@ -1,4 +1,4 @@
-export default interface salaryInterface {
+export default interface SalaryInterface {
     addDirectDeposit: boolean,
     comment: object,
     currencyId: string,

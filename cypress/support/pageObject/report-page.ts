@@ -38,6 +38,7 @@ export default class ReportPage {
         this.elements.saveBut().click()
 
         this.verfyNewReport(name, disaplyFields, values)
+        this.goToReport()
     }
 
     selectForm(name: string) {

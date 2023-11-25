@@ -1,8 +1,8 @@
 import LoginPage from "../../support/pageObject/login-page";
 import EmployeeAPI from "../../support/api/employee-api";
 import ReportPage from "../../support/pageObject/report-page";
-import { createJobAPI, deleteJob } from "../../support/api/job-api";
-import { createLocationAPI, deleteLocation } from "../../support/api/location-api";
+import {createJobAPI, deleteJob} from "../../support/api/job-api";
+import {createLocationAPI, deleteLocation} from "../../support/api/location-api";
 import tableValues from "../../support/interface/table-values-interface";
 
 const login: LoginPage = new LoginPage();
@@ -18,7 +18,7 @@ let values: tableValues[] = []
 describe('Generate an Employee report with search criteria by (Personal : First name/ Job: Job title/ Salary:Amount)', () => {
 
     beforeEach(() => {
-        cy.visit('/web/index.php')
+        
         cy.fixture('report').as('report')
 
         cy.fixture('adminLogin').then((admin) => {
@@ -70,7 +70,5 @@ describe('Generate an Employee report with search criteria by (Personal : First 
         cy.get('@report').then((report: any) => {
             reportPage.createNewReport(report.name, report.criteria, report.displayFields, values)
         })
-
-        reportPage.goToReport()
     })
 });
