@@ -1,4 +1,4 @@
-import { selectFromList } from "../helpers/generic-helper"
+import { clickOnButton, clickOnSubmitButton, selectFromList } from "../helpers/generic-helper"
 
 export default class employeeClaimPage {
     elements = {
@@ -11,28 +11,24 @@ export default class employeeClaimPage {
     }
 
     goToEmoClaim() {
-        this.elements.MainMenuItems().contains('Claim').click({ force: true })
+        clickOnButton(this.elements.MainMenuItems().contains('Claim'))
     }
 
     searchByEvent(event: string) {
         selectFromList({ element: this.elements.searchItem().contains('.oxd-grid-item ', 'Event Name').find('.oxd-select-text'), select: event })
-        this.elements.searchBut().click({ force: true })
+        clickOnButton(this.elements.searchBut())
     }
 
     approveClaimRequest(eventName: string) {
         this.searchByEvent(eventName)
         this.elements.claimRows().eq(1).find('button').click()
-        this.elements.buttons().contains('Approve').click()
-
-        this.verfiyClaimStatus('Paid')
+        clickOnSubmitButton(this.elements.buttons().contains('Approve'))
     }
 
     rejectClaimRequest(eventName: string) {
         this.searchByEvent(eventName)
         this.elements.claimRows().eq(1).find('button').click()
-        this.elements.buttons().contains('Reject').click()
-
-        this.verfiyClaimStatus('Rejected')
+         clickOnSubmitButton(this.elements.buttons().contains('Reject'))
     }
 
     verfiyClaimStatus(status: string) {

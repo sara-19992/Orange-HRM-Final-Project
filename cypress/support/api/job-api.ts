@@ -1,25 +1,23 @@
-import { URLS } from "../helpers/const-helper"
-import { initJob } from "../init/init-job"
-import { initDeletePaylod } from "../init/init-delete"
-import jobInterface from "../interface/job-interface"
+import { URLS } from "../helpers/const-helper";
+import { initJob } from "../init/init-job";
+import { initDeletePaylod } from "../init/init-delete";
+import jobInterface from "../interface/job-interface";
 
-const JOB_API_URL = URLS.job
+const JOB_API_URL = URLS.job;
 
-export const createJobAPI = (job: jobInterface) => {
+export default class JobAPI {
+  static createJobAPI(job: jobInterface) {
     return new Cypress.Promise((resolve) => {
-        let jobPaylad = initJob(job)
-        cy.orangeAPI('POST', JOB_API_URL, jobPaylad).then((response) => {
-            resolve(response.data.id)
-            cy.log('**Add New Job**')
-        })
-    })
+      cy.orangeAPI("POST", JOB_API_URL, initJob(job)).then((response) => {
+        resolve(response.data.id);
+        cy.log("**Add New Job**");
+      });
+    });
+  }
+
+  static deleteJob(id: number) {
+    cy.orangeAPI("DELETE", JOB_API_URL, initDeletePaylod(id)).then(() => {
+      cy.log("**Delete New Jobs**");
+    });
+  }
 }
-
-export const deleteJob = (id: number) => {
-    let paylod = initDeletePaylod(id)
-    cy.orangeAPI('DELETE', JOB_API_URL, paylod).then(() => {
-        cy.log('**Delete New Jobs**')
-    })
-}
-
-

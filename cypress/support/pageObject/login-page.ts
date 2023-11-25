@@ -8,10 +8,10 @@ export default class LoginPage {
         forgetText: () => cy.get(".orangehrm-login-forgot-header"),
         resetForm: () => cy.get(".oxd-form"),
         resetUserName: () => cy.get('[placeholder="Username"]'),
-        resetBut: () => cy.get('button[type="submit"]'),
+        resetPasswordBut: () => cy.get('button[type="submit"]'),
         resetText: () => cy.get(".oxd-text--h6"),
-        logout: () => cy.get(".oxd-userdropdown"),
-        logoutMenue: () => cy.get(".oxd-dropdown-menu"),
+        userBut: () => cy.get(".oxd-userdropdown"),
+        userLogoutMenu: () => cy.get(".oxd-dropdown-menu"),
     };
 
     assertianElem = [
@@ -30,6 +30,7 @@ export default class LoginPage {
     ];
 
     userLogin(userName: string, password: string) {
+        cy.visit('/web/index.php')
         typeInputField([
             { element: this.elements.userName(), str: userName },
             { element: this.elements.password(), str: password },
@@ -38,8 +39,8 @@ export default class LoginPage {
     }
 
     userLogout() {
-        this.elements.logout().click();
-        this.elements.logoutMenue().contains("Logout").click();
+        this.elements.userBut().click();
+        this.elements.userLogoutMenu().contains("Logout").click();
     }
 
     forget(user: any) {
@@ -48,7 +49,7 @@ export default class LoginPage {
         typeInputField([
             { element: this.elements.resetUserName(), str: user.userName },
         ]);
-        this.elements.resetBut().click().should("not.exist");
+        this.elements.resetPasswordBut().click().should("not.exist");
         this.elements
             .resetText()
             .should("contain", "Reset Password link sent successfully");

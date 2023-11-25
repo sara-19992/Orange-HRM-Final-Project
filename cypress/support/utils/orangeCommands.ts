@@ -12,7 +12,7 @@ declare global {
 }
 
 function getByPlaceholder(field: string) {
-    return cy.get('[placeholder="' + field + '"]');
+    return cy.get(`[placeholder="'${field}'"]`);
 }
 
 function orangeAPI(method: string, url: string, payload: {}) {

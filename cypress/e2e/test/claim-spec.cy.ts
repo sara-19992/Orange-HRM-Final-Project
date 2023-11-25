@@ -1,10 +1,10 @@
 import LoginPage from "../../support/pageObject/login-page";
 import EmployeeAPI from "../../support/api/employee-api";
 import employeeClaimPage from "../../support/pageObject/employee-claim-page";
-import { createEvent, deleteEvent } from "../../support/api/event-api";
-import { createExpenseType, deleteExpenseType } from "../../support/api/expens-api";
-import { createClaimRequest } from "../../support/api/claim-request-api";
+import  ClaimRequest  from "../../support/api/claim-request-api";
 import employeeInterface from "../../support/interface/employee-interface";
+import ExpenseType from "../../support/api/expens-api";
+import Event from "../../support/api/event-api";
 
 const login: LoginPage = new LoginPage();
 const empAPI: EmployeeAPI = new EmployeeAPI();
@@ -19,8 +19,6 @@ let admin: any
 describe('Claims Request Approval and Rejection For Employee', () => {
 
     beforeEach(() => {
-        cy.visit('/web/index.php')
-
         cy.fixture('adminLogin').then((adminLogin) => {
             admin = adminLogin
             login.userLogin(admin.userName, admin.password)
@@ -29,7 +27,7 @@ describe('Claims Request Approval and Rejection For Employee', () => {
 
         //create new event for claim
         cy.fixture('event').then((event) => {
-            createEvent(event).then((resolve) => {
+            Event.createEvent(event).then((resolve) => {
                 eventName = event.name
                 eventID = resolve
             })
@@ -37,7 +35,7 @@ describe('Claims Request Approval and Rejection For Employee', () => {
 
         //creat net expense for claim
         cy.fixture('expense').then((expense) => {
-            createExpenseType(expense).then((resolve) => {
+            ExpenseType.createExpenseType(expense).then((resolve) => {
                 expenseID = resolve
             })
         })
@@ -50,7 +48,7 @@ describe('Claims Request Approval and Rejection For Employee', () => {
                 login.userLogout()
                 login.userLogin(emp.username, emp.password)
                 cy.fixture('claim').then((claim) => {
-                    createClaimRequest(eventID, expenseID, claim)
+                    ClaimRequest.createClaimRequest(eventID, expenseID, claim)
                 })
                 login.userLogout()
                 login.userLogin(admin.userName, admin.password)
@@ -60,17 +58,19 @@ describe('Claims Request Approval and Rejection For Employee', () => {
 
     afterEach(() => {
         empAPI.deleteEmployee(empNum)
-        deleteEvent(eventID)
-        deleteExpenseType(expenseID)
+        Event.deleteEvent(eventID)
+        ExpenseType.deleteExpenseType(expenseID)
     })
 
     it('Approve Claim Request For Employee', () => {
         claimPage.goToEmoClaim()
         claimPage.approveClaimRequest(eventName)
+        claimPage.verfiyClaimStatus('Paid')
     })
 
     it('Reject Claim Request For Employee', () => {
         claimPage.goToEmoClaim()
         claimPage.rejectClaimRequest(eventName)
+        claimPage.verfiyClaimStatus('Rejected')
     })
 });

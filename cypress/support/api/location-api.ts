@@ -4,21 +4,22 @@ import { initDeletePaylod } from "../init/init-delete"
 import locationInterface from "../interface/location-interface"
 
 const LOCATION_API_URL = URLS.location
-export const createLocationAPI = (location: locationInterface) => {
-    return new Cypress.Promise((resolve) => {
-        let locationPaylad = initLocation(location)
-        cy.orangeAPI('POST', LOCATION_API_URL, locationPaylad).then((response) => {
-            cy.log('**Add New Location**')
-            resolve(response.data.id)
+export default class LocationAPI{
+    static createLocation(location: locationInterface){
+        return new Cypress.Promise((resolve) => {
+            cy.orangeAPI('POST', LOCATION_API_URL, initLocation(location)).then((response) => {
+                cy.log('**Add New Location**')
+                resolve(response.data.id)
+            })
         })
-    })
+    }
+    
+    static deleteLocation(id: number){
+        cy.orangeAPI('DELETE', LOCATION_API_URL, initDeletePaylod(id)).then(() => {
+            cy.log('**Delete New Location**')
+        })
+    }
 }
 
-export const deleteLocation = (id: number) => {
-    let paylod = initDeletePaylod(id)
-    cy.orangeAPI('DELETE', LOCATION_API_URL, paylod).then(() => {
-        cy.log('**Delete New Location**')
-    })
-}
 
 

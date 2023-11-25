@@ -15,3 +15,15 @@ export const selectFromList = (obj: selectFeild) => {
   obj.element.click()
   elements.dropList().contains(obj.select).click()
 }
+
+export const clickOnButton = (
+  element: Cypress.Chainable<JQuery<HTMLElement>>
+) => {
+  element.click({ force: true });
+};
+
+export const clickOnSubmitButton = (
+  element: Cypress.Chainable<JQuery<HTMLElement>>
+) => {
+  element.click();
+};
